@@ -16,3 +16,26 @@ package-lock.json
 # Temp files
 *.tmp
 *.bak
+
+# Claude sensitive/local files
+.claude/.credentials.json
+.claude/plugins/cache/
+.claude/plugins/marketplaces/
+.claude/plugins/install-counts-cache.json
+.claude/history.jsonl
+.claude/cache/
+.claude/debug/
+.claude/todos/
+.claude/session-env/
+.claude/telemetry/
+.claude/downloads/
+.claude/paste-cache/
+.claude/shell-snapshots/
+.claude/file-history/
+.claude/plans/
+.claude/projects/
+.claude/statsig/
+.claude/stats-cache.json
+.claude/security_warnings_state_*.json
+.claude/handoff*.md
+.claude/index.html

@@ -1,0 +1,18 @@
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "C:\\Users\\feder\\.claude\\plugins\\marketplaces\\claude-plugins-official",
+    "lastUpdated": "2026-01-07T18:51:21.031Z"
+  },
+  "smart-ralph": {
+    "source": {
+      "source": "github",
+      "repo": "tzachbon/smart-ralph"
+    },
+    "installLocation": "C:\\Users\\feder\\.claude\\plugins\\marketplaces\\smart-ralph",
+    "lastUpdated": "2026-01-13T21:23:03.732Z"
+  }
+}

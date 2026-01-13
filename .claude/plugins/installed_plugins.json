@@ -1,0 +1,140 @@
+{
+  "version": 2,
+  "plugins": {
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\frontend-design\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.261Z",
+        "lastUpdated": "2026-01-07T18:51:21.183Z"
+      }
+    ],
+    "github@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\github\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.334Z",
+        "lastUpdated": "2026-01-07T18:51:21.196Z"
+      }
+    ],
+    "serena@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\serena\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.406Z",
+        "lastUpdated": "2026-01-07T18:51:21.208Z"
+      }
+    ],
+    "feature-dev@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\feature-dev\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.479Z",
+        "lastUpdated": "2026-01-07T18:51:21.227Z"
+      }
+    ],
+    "code-review@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\code-review\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.556Z",
+        "lastUpdated": "2026-01-07T18:51:21.239Z"
+      }
+    ],
+    "commit-commands@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\commit-commands\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.630Z",
+        "lastUpdated": "2026-01-07T18:51:21.254Z"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\security-guidance\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.698Z",
+        "lastUpdated": "2026-01-07T18:51:21.268Z"
+      }
+    ],
+    "pr-review-toolkit@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\pr-review-toolkit\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.777Z",
+        "lastUpdated": "2026-01-07T18:51:21.298Z"
+      }
+    ],
+    "playwright@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\playwright\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:32.844Z",
+        "lastUpdated": "2026-01-07T18:51:21.309Z"
+      }
+    ],
+    "ralph-wiggum@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\ralph-wiggum\\6d3752c000e2",
+        "version": "6d3752c000e2",
+        "installedAt": "2025-12-27T10:37:32.924Z",
+        "lastUpdated": "2025-12-27T10:37:53.524Z"
+      }
+    ],
+    "hookify@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\hookify\\b97f6eadd929",
+        "version": "b97f6eadd929",
+        "installedAt": "2025-12-27T10:37:33.026Z",
+        "lastUpdated": "2026-01-07T18:51:21.347Z"
+      }
+    ],
+    "context7@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\context7\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-01-13T09:54:09.916Z",
+        "lastUpdated": "2026-01-13T09:54:09.916Z"
+      }
+    ],
+    "linear@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\linear\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-01-13T09:54:09.965Z",
+        "lastUpdated": "2026-01-13T09:54:09.965Z"
+      }
+    ],
+    "ralph-loop@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\claude-plugins-official\\ralph-loop\\unknown",
+        "version": "unknown",
+        "installedAt": "2026-01-13T09:54:10.021Z",
+        "lastUpdated": "2026-01-13T09:54:10.021Z"
+      }
+    ],
+    "ralph-specum@smart-ralph": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\feder\\.claude\\plugins\\cache\\smart-ralph\\ralph-specum\\1.1.1",
+        "version": "1.1.1",
+        "installedAt": "2026-01-13T21:23:10.282Z",
+        "lastUpdated": "2026-01-13T21:23:10.282Z"
+      }
+    ]
+  }
+}
