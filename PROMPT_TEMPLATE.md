@@ -1,121 +1,142 @@
-# Template Prompt - Genera Dashboard Personalizzata
+# Template - Genera Claude Compass Personalizzato
 
-Usa questo prompt con Claude per generare una dashboard personalizzata basata sulla tua configurazione Claude Code.
+Usa questo prompt con Claude per generare un Compass personalizzato basato sulla tua configurazione.
 
 ---
 
 ## Prompt da copiare
 
 ```
-Analizza la mia configurazione Claude Code e genera una dashboard HTML personalizzata.
+Genera un Claude Compass (index.html) personalizzato per la mia configurazione.
 
-## Informazioni da fornire
+## Design System
 
-1. **Comandi utente** (~/.claude/commands/):
-[Lista i tuoi file .md nella cartella commands]
+Usa il design Minimalist Monochrome:
+- Colori: solo #000000 (nero) e #FFFFFF (bianco)
+- Font: Playfair Display (titoli), Source Serif 4 (body), JetBrains Mono (codice)
+- Border-radius: 0px ovunque
+- Transizioni: max 100ms
+- Texture: noise + linee sottili
 
-2. **Plugin installati** (~/.claude/plugins/installed_plugins.json):
-[Incolla il contenuto del file o lista i plugin]
+## Mia configurazione
 
-3. **Hook attivi** (~/.claude/settings.json):
-[Incolla la sezione "hooks" del tuo settings.json]
+### Comandi utente (~/.claude/commands/):
+[Lista i tuoi file .md]
 
-4. **CLAUDE.md globale** (~/.claude/CLAUDE.md):
-[Incolla le sezioni rilevanti, specialmente workflow e comandi personalizzati]
+### Plugin installati:
+[Lista plugin]
 
-## Output richiesto
+### Hook attivi:
+[Lista hook]
 
-Genera un file dashboard.html con:
-- Tutti i miei comandi organizzati per categoria
-- Badge corretti (user/plugin/builtin/workflow)
-- Descrizioni estratte dai file .md dei comandi
-- Hook attivi mostrati nel footer
-- Conteggi aggiornati nei filtri
+## Output
 
-## Formato comando
-
-Per ogni comando includi:
-- Nome: /nome-comando
-- Tipo: user | plugin | builtin | workflow
-- Categoria: Planning | Quality | Session | Tools | Workflow
-- Breve: max 30 caratteri
-- Dettaglio: cosa fa, fasi se workflow
-- Esempio: uso tipico
+Genera index.html completo con:
+1. Landing page (hero, what, how, cta)
+2. Dashboard comandi organizzati per categoria
+3. Filtri funzionanti
+4. Accordion per dettagli
 ```
 
 ---
 
-## Esempio di risposta
+## Struttura HTML Comando
 
-Fornendo questo input:
-
+```html
+<div class="cmd" data-source="TIPO">
+    <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+        <div class="cmd__left">
+            <span class="cmd__name">/nome-comando</span>
+            <span class="cmd__brief">Breve descrizione</span>
+        </div>
+        <div class="cmd__right">
+            <span class="badge badge--TIPO">TIPO</span>
+            <span class="cmd__arrow">&#9662;</span>
+        </div>
+    </div>
+    <div class="cmd__content">
+        <p>Descrizione dettagliata.</p>
+        <div class="cmd__example">/nome-comando argomento</div>
+    </div>
+</div>
 ```
-Comandi utente:
-- discovery.md
-- scope.md
-- bugs.md
 
-Plugin:
-- commit-commands
-- playwright
+### Tipi (data-source e badge)
 
-Hook:
-- SessionStart: apre dashboard
-- Stop: salva handoff
+| Tipo | Classe badge | Descrizione |
+|------|--------------|-------------|
+| `workflow` | `badge--workflow` | Orchestrano altri comandi |
+| `user` | `badge--user` | In ~/.claude/commands/ |
+| `builtin` | `badge--builtin` | Nativi Claude Code |
+| `plugin` | `badge--plugin` | Da plugin esterni |
+
+---
+
+## Struttura Categoria
+
+```html
+<div class="category">
+    <div class="category__header">
+        <div class="category__icon">X</div>
+        <div class="category__info">
+            <h3 class="category__title">Nome Categoria</h3>
+            <p class="category__subtitle">Descrizione</p>
+        </div>
+    </div>
+    <div class="category__body">
+        <!-- comandi qui -->
+    </div>
+</div>
 ```
 
-Claude generera una dashboard con:
-- 3 comandi utente (discovery, scope, bugs)
-- Comandi del plugin commit-commands (/commit, /commit-push-pr)
-- Footer: "Hook attivi: dashboard auto-open, handoff auto-save"
+---
+
+## CSS Variables (Design System)
+
+```css
+:root {
+    --background: #FFFFFF;
+    --foreground: #000000;
+    --muted: #F5F5F5;
+    --muted-foreground: #525252;
+    --border: #000000;
+    --border-light: #E5E5E5;
+    --font-display: "Playfair Display", Georgia, serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-mono: "JetBrains Mono", monospace;
+}
+```
+
+---
+
+## Categorie standard
+
+| Icona | Categoria | Comandi tipici |
+|-------|-----------|----------------|
+| W | Workflow | progetto, feature, review-completa |
+| P | Planning | discovery, scope, write-plan |
+| Q | Quality | bugs, arch-review, perf-check |
+| S | Session | handoff, creative, code |
+| T | Tools | commit, worktree, help |
 
 ---
 
 ## Estrazione automatica
 
-Su Mac/Linux, puoi estrarre automaticamente le info:
-
+**Mac/Linux:**
 ```bash
-# Lista comandi utente
 ls -1 ~/.claude/commands/*.md 2>/dev/null | xargs -I {} basename {} .md
-
-# Plugin installati
-cat ~/.claude/plugins/installed_plugins.json | jq -r '.plugins | keys[]'
-
-# Hook configurati
-cat ~/.claude/settings.json | jq '.hooks | keys[]'
 ```
 
-Su Windows (PowerShell):
-
+**Windows:**
 ```powershell
-# Lista comandi utente
 Get-ChildItem "$env:USERPROFILE\.claude\commands\*.md" | Select-Object -ExpandProperty BaseName
-
-# Plugin installati
-Get-Content "$env:USERPROFILE\.claude\plugins\installed_plugins.json" | ConvertFrom-Json | Select-Object -ExpandProperty plugins | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
-
-# Hook configurati (richiede parsing manuale del JSON)
-Get-Content "$env:USERPROFILE\.claude\settings.json"
 ```
-
----
-
-## Categorie suggerite
-
-| Categoria | Comandi tipici |
-|-----------|----------------|
-| **Workflow** | Comandi che orchestrano altri comandi in sequenza |
-| **Planning** | discovery, scope, write-plan |
-| **Quality** | bugs, arch-review, perf-check, arewedone |
-| **Session** | handoff, creative, code, log-error/success |
-| **Tools** | commit, worktree, help, clear |
 
 ---
 
 ## Note
 
-- I comandi **workflow** sono quelli che chiamano altri comandi / in sequenza
-- I comandi **builtin** sono: help, clear, compact, init, doctor, config
-- I comandi **plugin** vengono dai plugin in ~/.claude/plugins/
-- I comandi **user** sono i .md in ~/.claude/commands/
+- Comandi **builtin**: help, clear, compact, init, doctor, config
+- I workflow chiamano altri comandi in sequenza
+- Mantieni accessibilita: tabindex, aria-expanded, focus-visible

@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Compass - Orientati nel mondo di Claude Code</title>
+    <meta name="description" content="Guida interattiva ai comandi e workflow di Claude Code per utenti non-dev">
+
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!--
+    ============================================================================
+    CLAUDE COMPASS - Orientamento per Claude Code
+    ============================================================================
+    Design System: Minimalist Monochrome
+    - Pure black (#000) e white (#FFF)
+    - Serif typography (Playfair Display, Source Serif 4)
+    - Zero border-radius
+    - Line-based visuals
+    - Instant transitions (100ms max)
+    ============================================================================
+    -->
+
+    <style>
+        /* ====================================================================
+           CSS VARIABLES - MONOCHROME DESIGN SYSTEM
+           ==================================================================== */
+        :root {
+            /* Colors - Pure Monochrome */
+            --background: #FFFFFF;
+            --foreground: #000000;
+            --muted: #F5F5F5;
+            --muted-foreground: #525252;
+            --border: #000000;
+            --border-light: #E5E5E5;
+
+            /* Typography */
+            --font-display: "Playfair Display", Georgia, serif;
+            --font-body: "Source Serif 4", Georgia, serif;
+            --font-mono: "JetBrains Mono", monospace;
+
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            --space-3xl: 6rem;
+
+            /* Container */
+            --container-max: 72rem;
+        }
+
+        /* ====================================================================
+           RESET & BASE
+           ==================================================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            line-height: 1.625;
+            color: var(--foreground);
+            background: var(--background);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ====================================================================
+           TEXTURES - Layered for depth
+           ==================================================================== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+            z-index: 9999;
+        }
+
+        /* ====================================================================
+           SKIP LINK - Accessibility
+           ==================================================================== */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: var(--space-md);
+            padding: var(--space-xs) var(--space-sm);
+            background: var(--foreground);
+            color: var(--background);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            text-decoration: none;
+            z-index: 10000;
+        }
+
+        .skip-link:focus {
+            top: var(--space-md);
+        }
+
+        /* ====================================================================
+           CONTAINER
+           ==================================================================== */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding-left: var(--space-md);
+            padding-right: var(--space-md);
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding-left: var(--space-xl);
+                padding-right: var(--space-xl);
+            }
+        }
+
+        /* ====================================================================
+           SECTION DIVIDER - 4px black rule
+           ==================================================================== */
+        .divider {
+            border: none;
+            height: 4px;
+            background: var(--foreground);
+            margin: 0;
+        }
+
+        .divider--thin {
+            height: 1px;
+        }
+
+        /* ====================================================================
+           LANDING - HERO SECTION
+           ==================================================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-3xl) 0;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 1px,
+                #000 1px,
+                #000 2px
+            );
+            background-size: 100% 4px;
+            opacity: 0.015;
+        }
+
+        .hero__decorator {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero__line {
+            width: 120px;
+            height: 4px;
+            background: var(--foreground);
+        }
+
+        .hero__square {
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--foreground);
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 12vw, 10rem);
+            font-weight: 400;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            margin-bottom: var(--space-md);
+        }
+
+        .hero__title span {
+            display: block;
+        }
+
+        .hero__tagline {
+            font-family: var(--font-display);
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-style: italic;
+            color: var(--muted-foreground);
+            margin-bottom: var(--space-2xl);
+            max-width: 32ch;
+        }
+
+        .hero__cta {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .hero__scroll {
+            position: absolute;
+            bottom: var(--space-lg);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .hero__scroll::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: var(--foreground);
+        }
+
+        /* ====================================================================
+           BUTTONS
+           ==================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-lg);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 100ms;
+        }
+
+        .btn--primary {
+            background: var(--foreground);
+            color: var(--background);
+            border: 2px solid var(--foreground);
+        }
+
+        .btn--primary:hover {
+            background: var(--background);
+            color: var(--foreground);
+        }
+
+        .btn--primary:focus-visible {
+            outline: 3px solid var(--foreground);
+            outline-offset: 3px;
+        }
+
+        .btn--secondary {
+            background: transparent;
+            color: var(--foreground);
+            border: 2px solid var(--foreground);
+        }
+
+        .btn--secondary:hover {
+            background: var(--foreground);
+            color: var(--background);
+        }
+
+        .btn--secondary:focus-visible {
+            outline: 3px solid var(--foreground);
+            outline-offset: 3px;
+        }
+
+        .btn__arrow {
+            transition: transform 100ms;
+        }
+
+        .btn:hover .btn__arrow {
+            transform: translateX(4px);
+        }
+
+        /* ====================================================================
+           WHAT SECTION - Feature Grid
+           ==================================================================== */
+        .what {
+            padding: var(--space-3xl) 0;
+        }
+
+        .what__header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .what__label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted-foreground);
+            margin-bottom: var(--space-sm);
+        }
+
+        .what__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: -0.025em;
+        }
+
+        .what__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .feature {
+            padding: var(--space-lg);
+            border: 1px solid var(--foreground);
+            transition: all 100ms;
+        }
+
+        .feature:hover {
+            background: var(--foreground);
+            color: var(--background);
+        }
+
+        .feature:hover .feature__icon {
+            border-color: var(--background);
+        }
+
+        .feature__icon {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--foreground);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+            transition: border-color 100ms;
+        }
+
+        .feature__icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 1.5;
+        }
+
+        .feature__title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .feature__desc {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* ====================================================================
+           HOW SECTION - Timeline
+           ==================================================================== */
+        .how {
+            padding: var(--space-3xl) 0;
+            background: var(--muted);
+        }
+
+        .how__header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .how__label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted-foreground);
+            margin-bottom: var(--space-sm);
+        }
+
+        .how__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: -0.025em;
+        }
+
+        .timeline {
+            display: grid;
+            gap: var(--space-lg);
+        }
+
+        @media (min-width: 768px) {
+            .timeline {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .timeline__step {
+            position: relative;
+            padding-left: var(--space-2xl);
+        }
+
+        @media (min-width: 768px) {
+            .timeline__step {
+                padding-left: 0;
+                padding-top: var(--space-2xl);
+            }
+
+            .timeline__step::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: var(--foreground);
+            }
+        }
+
+        .timeline__number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 400;
+            line-height: 1;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        @media (min-width: 768px) {
+            .timeline__number {
+                position: relative;
+                margin-bottom: var(--space-sm);
+            }
+        }
+
+        .timeline__title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .timeline__desc {
+            font-size: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        /* ====================================================================
+           CTA SECTION - Inverted
+           ==================================================================== */
+        .cta {
+            padding: var(--space-3xl) 0;
+            background: var(--foreground);
+            color: var(--background);
+            position: relative;
+        }
+
+        .cta::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 1px,
+                #fff 1px,
+                #fff 2px
+            );
+            background-size: 4px 100%;
+            opacity: 0.03;
+        }
+
+        .cta__content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: -0.025em;
+            margin-bottom: var(--space-md);
+        }
+
+        .cta__desc {
+            font-size: 1.125rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: var(--space-lg);
+            max-width: 48ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta__buttons {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .cta .btn--primary {
+            background: var(--background);
+            color: var(--foreground);
+            border-color: var(--background);
+        }
+
+        .cta .btn--primary:hover {
+            background: transparent;
+            color: var(--background);
+        }
+
+        .cta .btn--secondary {
+            color: var(--background);
+            border-color: var(--background);
+        }
+
+        .cta .btn--secondary:hover {
+            background: var(--background);
+            color: var(--foreground);
+        }
+
+        /* ====================================================================
+           DASHBOARD SECTION
+           ==================================================================== */
+        .dashboard {
+            padding: var(--space-3xl) 0;
+        }
+
+        .dashboard__header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            padding-bottom: var(--space-md);
+            border-bottom: 4px solid var(--foreground);
+            margin-bottom: var(--space-lg);
+        }
+
+        .dashboard__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 400;
+            letter-spacing: -0.025em;
+        }
+
+        .dashboard__count {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        /* ====================================================================
+           FILTERS
+           ==================================================================== */
+        .filters {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-lg);
+        }
+
+        .filter {
+            padding: var(--space-xs) var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: transparent;
+            color: var(--foreground);
+            border: 2px solid var(--foreground);
+            cursor: pointer;
+            transition: all 100ms;
+        }
+
+        .filter:hover,
+        .filter.active {
+            background: var(--foreground);
+            color: var(--background);
+        }
+
+        .filter:focus-visible {
+            outline: 3px solid var(--foreground);
+            outline-offset: 2px;
+        }
+
+        .filter__count {
+            margin-left: var(--space-xs);
+            opacity: 0.7;
+        }
+
+        /* ====================================================================
+           CATEGORIES GRID
+           ==================================================================== */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .category {
+            border: 1px solid var(--foreground);
+        }
+
+        .category__header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .category__icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--foreground);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .category__info {
+            flex: 1;
+        }
+
+        .category__title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .category__subtitle {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .category__body {
+            padding: var(--space-xs);
+        }
+
+        /* ====================================================================
+           COMMAND ITEMS
+           ==================================================================== */
+        .cmd {
+            border: 1px solid transparent;
+            margin: 2px 0;
+            transition: border-color 100ms;
+        }
+
+        .cmd:hover {
+            border-color: var(--border-light);
+        }
+
+        .cmd.hidden {
+            display: none;
+        }
+
+        .cmd__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-sm) var(--space-md);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .cmd__header:focus-visible {
+            outline: 3px solid var(--foreground);
+            outline-offset: -3px;
+        }
+
+        .cmd__left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .cmd__name {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .cmd__brief {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        @media (max-width: 640px) {
+            .cmd__brief {
+                display: none;
+            }
+        }
+
+        .cmd__right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .cmd__arrow {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            transition: transform 100ms;
+        }
+
+        .cmd.open .cmd__arrow {
+            transform: rotate(180deg);
+        }
+
+        .cmd__content {
+            display: none;
+            padding: 0 var(--space-md) var(--space-md);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+        }
+
+        .cmd.open .cmd__content {
+            display: block;
+        }
+
+        .cmd__content p {
+            margin-bottom: var(--space-sm);
+        }
+
+        .cmd__content ol,
+        .cmd__content ul {
+            margin-left: var(--space-md);
+            margin-bottom: var(--space-sm);
+        }
+
+        .cmd__content li {
+            margin-bottom: 4px;
+        }
+
+        .cmd__example {
+            background: var(--muted);
+            padding: var(--space-xs) var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            border-left: 3px solid var(--foreground);
+            margin: var(--space-xs) 0;
+        }
+
+        /* ====================================================================
+           BADGES
+           ==================================================================== */
+        .badge {
+            font-family: var(--font-mono);
+            font-size: 0.625rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border: 1px solid currentColor;
+        }
+
+        .badge--builtin {
+            color: var(--foreground);
+        }
+
+        .badge--user {
+            color: var(--foreground);
+            background: var(--muted);
+        }
+
+        .badge--plugin {
+            color: var(--background);
+            background: var(--foreground);
+            border-color: var(--foreground);
+        }
+
+        .badge--workflow {
+            color: var(--foreground);
+            border-width: 2px;
+        }
+
+        /* ====================================================================
+           LEGEND
+           ==================================================================== */
+        .legend {
+            margin-top: var(--space-2xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .legend__title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: var(--space-md);
+        }
+
+        .legend__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-sm);
+        }
+
+        .legend__item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+        }
+
+        .legend__desc {
+            color: var(--muted-foreground);
+        }
+
+        /* ====================================================================
+           FOOTER
+           ==================================================================== */
+        .footer {
+            padding: var(--space-lg) 0;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .footer__text {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        .footer__link {
+            color: var(--foreground);
+            text-decoration: none;
+            border-bottom: 1px solid var(--foreground);
+        }
+
+        .footer__link:hover {
+            border-bottom-width: 2px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#dashboard" class="skip-link">Vai alla dashboard</a>
+
+    <!-- ====================================================================
+         HERO SECTION
+         ==================================================================== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero__decorator">
+                <div class="hero__line"></div>
+                <div class="hero__square"></div>
+            </div>
+            <h1 class="hero__title">
+                <span>Claude</span>
+                <span>Compass</span>
+            </h1>
+            <p class="hero__tagline">Orientati nel mondo di Claude Code</p>
+            <div class="hero__cta">
+                <a href="#dashboard" class="btn btn--primary">
+                    Esplora i comandi
+                    <span class="btn__arrow">&rarr;</span>
+                </a>
+                <a href="https://github.com/stellakamikaze/claude-compass" class="btn btn--secondary" target="_blank" rel="noopener">
+                    GitHub
+                </a>
+            </div>
+        </div>
+        <a href="#what" class="hero__scroll">Scopri</a>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ====================================================================
+         WHAT SECTION
+         ==================================================================== -->
+    <section class="what" id="what">
+        <div class="container">
+            <header class="what__header">
+                <p class="what__label">Cos'e Claude Code</p>
+                <h2 class="what__title">Il tuo assistente di sviluppo nella riga di comando</h2>
+            </header>
+            <div class="what__grid">
+                <article class="feature">
+                    <div class="feature__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                    </div>
+                    <h3 class="feature__title">Comandi</h3>
+                    <p class="feature__desc">Slash commands per ogni operazione: dalla pianificazione al commit.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                        </svg>
+                    </div>
+                    <h3 class="feature__title">Workflow</h3>
+                    <p class="feature__desc">Sequenze di comandi orchestrate per task complessi.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="feature__title">Agenti</h3>
+                    <p class="feature__desc">Specialisti AI per bug hunting, review architettura, performance.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ====================================================================
+         HOW SECTION
+         ==================================================================== -->
+    <section class="how" id="how">
+        <div class="container">
+            <header class="how__header">
+                <p class="how__label">Come usare Compass</p>
+                <h2 class="how__title">Quattro step per iniziare</h2>
+            </header>
+            <div class="timeline">
+                <div class="timeline__step">
+                    <span class="timeline__number">1</span>
+                    <h3 class="timeline__title">Scarica</h3>
+                    <p class="timeline__desc">Copia index.html nella tua cartella ~/.claude/</p>
+                </div>
+                <div class="timeline__step">
+                    <span class="timeline__number">2</span>
+                    <h3 class="timeline__title">Esplora</h3>
+                    <p class="timeline__desc">Naviga i comandi per categoria e tipo</p>
+                </div>
+                <div class="timeline__step">
+                    <span class="timeline__number">3</span>
+                    <h3 class="timeline__title">Prova</h3>
+                    <p class="timeline__desc">Usa i comandi che ti servono nel terminale</p>
+                </div>
+                <div class="timeline__step">
+                    <span class="timeline__number">4</span>
+                    <h3 class="timeline__title">Adatta</h3>
+                    <p class="timeline__desc">Personalizza con i tuoi comandi e workflow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ====================================================================
+         CTA SECTION
+         ==================================================================== -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta__content">
+                <h2 class="cta__title">Pronto per iniziare?</h2>
+                <p class="cta__desc">Scarica Compass e scopri tutto quello che Claude Code puo fare per te.</p>
+                <div class="cta__buttons">
+                    <a href="#dashboard" class="btn btn--primary">
+                        Vai alla Dashboard
+                        <span class="btn__arrow">&darr;</span>
+                    </a>
+                    <a href="https://github.com/stellakamikaze/claude-compass" class="btn btn--secondary" target="_blank" rel="noopener">
+                        README su GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ====================================================================
+         DASHBOARD SECTION
+         ==================================================================== -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <header class="dashboard__header">
+                <h2 class="dashboard__title">Dashboard Comandi</h2>
+                <span class="dashboard__count"><span id="totalCount">26</span> comandi disponibili</span>
+            </header>
+
+            <!-- Filters -->
+            <div class="filters">
+                <button class="filter active" data-filter="all">Tutti <span class="filter__count" id="countAll">26</span></button>
+                <button class="filter" data-filter="workflow">Workflow <span class="filter__count" id="countWorkflow">6</span></button>
+                <button class="filter" data-filter="user">Utente <span class="filter__count" id="countUser">15</span></button>
+                <button class="filter" data-filter="builtin">Built-in <span class="filter__count" id="countBuiltin">3</span></button>
+                <button class="filter" data-filter="plugin">Plugin <span class="filter__count" id="countPlugin">2</span></button>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="categories">
+                <!-- WORKFLOW -->
+                <div class="category">
+                    <div class="category__header">
+                        <div class="category__icon">W</div>
+                        <div class="category__info">
+                            <h3 class="category__title">Workflow</h3>
+                            <p class="category__subtitle">Orchestrano altri comandi</p>
+                        </div>
+                    </div>
+                    <div class="category__body">
+                        <div class="cmd" data-source="workflow">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/progetto</span>
+                                    <span class="cmd__brief">Nuovo progetto completo</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--workflow">workflow</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Workflow completo dall'idea al primo commit.</p>
+                                <ol>
+                                    <li>/discovery - Raccolta requisiti</li>
+                                    <li>/scope - Definizione architettura</li>
+                                    <li>/write-plan - Piano implementazione</li>
+                                    <li>Implementazione</li>
+                                    <li>/arewedone - Verifica e commit</li>
+                                </ol>
+                                <div class="cmd__example">/progetto</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="workflow">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/feature</span>
+                                    <span class="cmd__brief">Sviluppo nuova feature</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--workflow">workflow</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Workflow per sviluppare una feature con review integrata.</p>
+                                <ol>
+                                    <li>/scope - Definizione feature</li>
+                                    <li>Implementazione con TDD</li>
+                                    <li>/bugs - Bug hunting</li>
+                                    <li>/arch-review - Review architettura</li>
+                                    <li>/commit - Commit finale</li>
+                                </ol>
+                                <div class="cmd__example">/feature login form</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="workflow">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/review-completa</span>
+                                    <span class="cmd__brief">Review multi-agente</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--workflow">workflow</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Review approfondita con tutti gli agenti specializzati.</p>
+                                <ol>
+                                    <li>/bugs - Bug hunting</li>
+                                    <li>/arch-review - Architettura</li>
+                                    <li>/perf-check - Performance</li>
+                                    <li>/arewedone - Completezza</li>
+                                </ol>
+                                <div class="cmd__example">/review-completa src/</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="workflow">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/codebase-review</span>
+                                    <span class="cmd__brief">Revisione codebase esistente</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--workflow">workflow</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Analisi guidata: cosa tenere, rimuovere, refactorare.</p>
+                                <ol>
+                                    <li>Inventory - Struttura e stack</li>
+                                    <li>Keep - Codice da mantenere</li>
+                                    <li>Remove - Dead code</li>
+                                    <li>Refactor - Debito tecnico</li>
+                                    <li>Continue - Next steps</li>
+                                </ol>
+                                <div class="cmd__example">/codebase-review</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="workflow">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/fine-sessione</span>
+                                    <span class="cmd__brief">Chiudi sessione pulito</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--workflow">workflow</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Workflow per chiudere correttamente una sessione.</p>
+                                <ol>
+                                    <li>/arewedone - Verifica completezza</li>
+                                    <li>/update-doc - Aggiorna documentazione</li>
+                                    <li>/handoff - Passaggio consegne</li>
+                                    <li>/clear - Pulisci contesto</li>
+                                </ol>
+                                <div class="cmd__example">/fine-sessione "pausa pranzo"</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="workflow">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/debug</span>
+                                    <span class="cmd__brief">Trova e fixa bug rapido</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--workflow">workflow</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Workflow rapido per debugging.</p>
+                                <ol>
+                                    <li>/bugs [file] - Analisi bug</li>
+                                    <li>Fix dei bug trovati</li>
+                                    <li>/bugs - Verifica fix</li>
+                                    <li>/commit - Commit con "fix:"</li>
+                                </ol>
+                                <div class="cmd__example">/debug src/parser.js</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PLANNING -->
+                <div class="category">
+                    <div class="category__header">
+                        <div class="category__icon">P</div>
+                        <div class="category__info">
+                            <h3 class="category__title">Planning</h3>
+                            <p class="category__subtitle">Analisi e pianificazione</p>
+                        </div>
+                    </div>
+                    <div class="category__body">
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/discovery</span>
+                                    <span class="cmd__brief">Esplora nuovo progetto</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Intervista strutturata in 4 fasi per raccogliere requisiti: Business, Technical, Scale, Prioritization.</p>
+                                <div class="cmd__example">/discovery</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/scope</span>
+                                    <span class="cmd__brief">Definisci scope tecnico</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Crea documento scope: architettura, schema DB, API, componenti.</p>
+                                <div class="cmd__example">/scope</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/write-plan</span>
+                                    <span class="cmd__brief">Piano implementazione</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Genera piano ordinato con vertical slices e dipendenze.</p>
+                                <div class="cmd__example">/write-plan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUALITY -->
+                <div class="category">
+                    <div class="category__header">
+                        <div class="category__icon">Q</div>
+                        <div class="category__info">
+                            <h3 class="category__title">Quality</h3>
+                            <p class="category__subtitle">Bug hunting e review</p>
+                        </div>
+                    </div>
+                    <div class="category__body">
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/bugs</span>
+                                    <span class="cmd__brief">Trova bug nel codice</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Lancia bug-finder agent: errori logici, race condition, edge case.</p>
+                                <div class="cmd__example">/bugs src/parser.js</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/arch-review</span>
+                                    <span class="cmd__brief">Review architettura</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Lancia architecture-reviewer: SOLID, SoC, scalabilita.</p>
+                                <div class="cmd__example">/arch-review backend/</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/perf-check</span>
+                                    <span class="cmd__brief">Analisi performance</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Lancia performance-profiler: thread blocking, memoria, rendering.</p>
+                                <div class="cmd__example">/perf-check app/main.js</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/arewedone</span>
+                                    <span class="cmd__brief">Verifica completezza</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Review strutturale + fix automatici + commit.</p>
+                                <div class="cmd__example">/arewedone</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/ui-review</span>
+                                    <span class="cmd__brief">Review UI/UX</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Lancia ui-ux-consultant: accessibilita, UX flow, platform guidelines.</p>
+                                <div class="cmd__example">/ui-review components/</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SESSION -->
+                <div class="category">
+                    <div class="category__header">
+                        <div class="category__icon">S</div>
+                        <div class="category__info">
+                            <h3 class="category__title">Session</h3>
+                            <p class="category__subtitle">Handoff e modalita</p>
+                        </div>
+                    </div>
+                    <div class="category__body">
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/handoff</span>
+                                    <span class="cmd__brief">Passaggio consegne</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Crea documento handoff: stato, decisioni, file modificati, next steps.</p>
+                                <div class="cmd__example">/handoff "fermato per pausa"</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/update-doc</span>
+                                    <span class="cmd__brief">Aggiorna Google Doc</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Aggiorna doc di progetto (sigonella, speculum, contaspiccioli).</p>
+                                <div class="cmd__example">/update-doc sigonella "Auth implementato"</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/creative</span>
+                                    <span class="cmd__brief">Modalita creativa</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Switch a modalita scrittura: no TDD, flow naturale, brainstorming.</p>
+                                <div class="cmd__example">/creative</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/code</span>
+                                    <span class="cmd__brief">Modalita codice</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Ritorna a modalita sviluppo (default): TDD, planning, verifica.</p>
+                                <div class="cmd__example">/code</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/log-error</span>
+                                    <span class="cmd__brief">Registra errore</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Intervista per capire cosa e andato storto e prevenirlo.</p>
+                                <div class="cmd__example">/log-error</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/log-success</span>
+                                    <span class="cmd__brief">Registra successo</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Cattura cosa ha funzionato bene per replicarlo.</p>
+                                <div class="cmd__example">/log-success</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOOLS -->
+                <div class="category">
+                    <div class="category__header">
+                        <div class="category__icon">T</div>
+                        <div class="category__info">
+                            <h3 class="category__title">Tools</h3>
+                            <p class="category__subtitle">Git e utility</p>
+                        </div>
+                    </div>
+                    <div class="category__body">
+                        <div class="cmd" data-source="plugin">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/commit</span>
+                                    <span class="cmd__brief">Commit intelligente</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--plugin">plugin</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Crea commit con messaggio auto-generato analizzando i changes.</p>
+                                <div class="cmd__example">/commit</div>
+                                <div class="cmd__example">/commit-push-pr (commit + push + PR)</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="user">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/worktree</span>
+                                    <span class="cmd__brief">Crea git worktree</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--user">utente</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Crea worktree con branch auto (worktree1, worktree2...).</p>
+                                <div class="cmd__example">/worktree</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="builtin">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/help</span>
+                                    <span class="cmd__brief">Mostra aiuto</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--builtin">built-in</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Mostra l'aiuto di Claude Code con tutti i comandi disponibili.</p>
+                                <div class="cmd__example">/help</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="builtin">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/clear</span>
+                                    <span class="cmd__brief">Pulisci contesto</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--builtin">built-in</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Pulisce il contesto della conversazione. Usa /handoff prima!</p>
+                                <div class="cmd__example">/clear</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="builtin">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/compact</span>
+                                    <span class="cmd__brief">Compatta contesto</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--builtin">built-in</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Compatta la conversazione mantenendo il contesto essenziale.</p>
+                                <div class="cmd__example">/compact</div>
+                            </div>
+                        </div>
+
+                        <div class="cmd" data-source="plugin">
+                            <div class="cmd__header" tabindex="0" role="button" aria-expanded="false" onclick="toggleCmd(this)">
+                                <div class="cmd__left">
+                                    <span class="cmd__name">/review-pr</span>
+                                    <span class="cmd__brief">Review pull request</span>
+                                </div>
+                                <div class="cmd__right">
+                                    <span class="badge badge--plugin">plugin</span>
+                                    <span class="cmd__arrow">&#9662;</span>
+                                </div>
+                            </div>
+                            <div class="cmd__content">
+                                <p>Review automatica di una pull request GitHub.</p>
+                                <div class="cmd__example">/review-pr 123</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="legend">
+                <h3 class="legend__title">Legenda</h3>
+                <div class="legend__grid">
+                    <div class="legend__item">
+                        <span class="badge badge--builtin">built-in</span>
+                        <span class="legend__desc">Comandi nativi</span>
+                    </div>
+                    <div class="legend__item">
+                        <span class="badge badge--user">utente</span>
+                        <span class="legend__desc">~/.claude/commands/</span>
+                    </div>
+                    <div class="legend__item">
+                        <span class="badge badge--plugin">plugin</span>
+                        <span class="legend__desc">Plugin esterni</span>
+                    </div>
+                    <div class="legend__item">
+                        <span class="badge badge--workflow">workflow</span>
+                        <span class="legend__desc">Orchestrano altri comandi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">
+                Claude Compass |
+                <a href="https://github.com/stellakamikaze/claude-compass" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ====================================================================
+         JAVASCRIPT
+         ==================================================================== -->
+    <script>
+        /**
+         * Toggle accordion state for command items
+         */
+        function toggleCmd(header) {
+            if (!header || !header.parentElement) return;
+            const item = header.parentElement;
+            const isOpen = item.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
+        }
+
+        // DOM references
+        const filters = document.querySelectorAll('.filter');
+        const cmds = document.querySelectorAll('.cmd');
+
+        /**
+         * Update filter counts dynamically
+         */
+        function updateCounts() {
+            const counts = { all: 0, workflow: 0, user: 0, builtin: 0, plugin: 0 };
+
+            cmds.forEach(cmd => {
+                const source = cmd.dataset.source;
+                if (source && counts[source] !== undefined) {
+                    counts[source]++;
+                    counts.all++;
+                }
+            });
+
+            document.getElementById('totalCount').textContent = counts.all;
+            document.getElementById('countAll').textContent = counts.all;
+            document.getElementById('countWorkflow').textContent = counts.workflow;
+            document.getElementById('countUser').textContent = counts.user;
+            document.getElementById('countBuiltin').textContent = counts.builtin;
+            document.getElementById('countPlugin').textContent = counts.plugin;
+        }
+
+        // Filter click handler
+        filters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                const filterValue = filter.dataset.filter;
+                if (!filterValue) return;
+
+                // Update active state
+                filters.forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+
+                // Show/hide commands
+                cmds.forEach(cmd => {
+                    cmd.classList.toggle('hidden',
+                        filterValue !== 'all' && cmd.dataset.source !== filterValue
+                    );
+                });
+            });
+        });
+
+        // Keyboard navigation
+        document.querySelectorAll('.cmd__header').forEach(header => {
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleCmd(header);
+                }
+            });
+        });
+
+        // Initialize
+        updateCounts();
+    </script>
+</body>
+</html>
