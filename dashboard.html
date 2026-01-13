@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claude Code - Command Center</title>
 
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <!--
     ============================================================================
     CLAUDE CODE DASHBOARD - Command Center
@@ -28,11 +33,11 @@
 
     <style>
         /* ====================================================================
-           FONT IMPORTS
+           FONTS
+           Loaded via <link> tags in <head> for better performance:
            - Inter: UI text, clean and readable
            - JetBrains Mono: code/commands, monospace
            ==================================================================== */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
         /* ====================================================================
            CSS VARIABLES - DARK THEME
@@ -1182,47 +1187,78 @@
     <script>
         /**
          * Toggle accordion state for command items
+         * Includes null check for safety and aria-expanded for accessibility
          * @param {HTMLElement} header - The clicked header element
          */
         function toggleCmd(header) {
+            if (!header || !header.parentElement) return;
             const item = header.parentElement;
-            item.classList.toggle('open');
+            const isOpen = item.classList.toggle('open');
+            header.setAttribute('aria-expanded', isOpen);
         }
 
+        // Cache DOM references for better performance
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const cmdItems = document.querySelectorAll('.cmd-item');
+
         /**
-         * Toggle workflow card details
-         * @param {HTMLElement} card - The clicked workflow card
+         * Update filter tab counts dynamically
+         * Counts cmd-items by data-source attribute
          */
-        function toggleWorkflow(card) {
-            card.classList.toggle('open');
+        function updateFilterCounts() {
+            const counts = { all: 0 };
+            cmdItems.forEach(item => {
+                const source = item.dataset.source;
+                if (source) {
+                    counts[source] = (counts[source] || 0) + 1;
+                    counts.all++;
+                }
+            });
+
+            filterTabs.forEach(tab => {
+                const filter = tab.dataset.filter;
+                const countSpan = tab.querySelector('.count');
+                if (countSpan && counts[filter] !== undefined) {
+                    countSpan.textContent = counts[filter];
+                }
+            });
         }
 
         // Filter functionality
         // Gestisce il click sui tab filtro per mostrare/nascondere comandi
-        document.querySelectorAll('.filter-tab').forEach(tab => {
+        filterTabs.forEach(tab => {
             tab.addEventListener('click', () => {
+                const filter = tab.dataset.filter;
+                if (!filter) return;
+
                 // Update active tab
-                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                filterTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
 
-                const filter = tab.dataset.filter;
-
                 // Show/hide items based on filter
-                // Compara data-source dell'item con data-filter del tab
-                document.querySelectorAll('.cmd-item').forEach(item => {
-                    if (filter === 'all') {
-                        item.classList.remove('hidden');
-                    } else {
-                        const source = item.dataset.source;
-                        if (source === filter) {
-                            item.classList.remove('hidden');
-                        } else {
-                            item.classList.add('hidden');
-                        }
-                    }
+                cmdItems.forEach(item => {
+                    item.classList.toggle('hidden',
+                        filter !== 'all' && item.dataset.source !== filter
+                    );
                 });
             });
         });
+
+        // Keyboard navigation for accordion headers
+        document.querySelectorAll('.cmd-header').forEach(header => {
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('role', 'button');
+            header.setAttribute('aria-expanded', 'false');
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleCmd(header);
+                }
+            });
+        });
+
+        // Initialize counts on page load
+        updateFilterCounts();
     </script>
 </body>
 </html>

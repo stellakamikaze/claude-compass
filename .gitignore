@@ -1,0 +1,18 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node (if tooling added in future)
+node_modules/
+package-lock.json
+
+# Temp files
+*.tmp
+*.bak
